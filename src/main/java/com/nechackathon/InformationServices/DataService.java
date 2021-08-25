@@ -22,26 +22,28 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class DataService {
 	public static final Logger s_log = LogManager.getLogManager().getLogger("DataService");
-	String name;
 	
 	@Value("${api.key}")
 	private String api_key;
 	final String  TRAFFIC_URL = "https://traffic.ls.hereapi.com/traffic/6.3/incidents/xml/8/134/86";
 	
-	//we will put api call here
 	@Autowired
 	RestTemplate restOperations;
+	
+	//put api call here
 	public String getData(String dataType) {
 		
+		CloseableHttpClient client = HttpClients.custom().build();
+        ResponseHandler<String> responseHandler=new BasicResponseHandler();
+        
 		//Traffic Data
 		if(dataType.equals("traffic")) {
 			try {
-				//Make the Request
-				CloseableHttpClient client = HttpClients.custom().build();
+				// Make the Request
 				HttpUriRequest request = (HttpUriRequest) RequestBuilder.get().setUri(TRAFFIC_URL)
 						.setHeader(HttpHeaders.CONTENT_TYPE,"application/json").addParameter("apiKey", api_key).build();
+				
 				// Execute HTTP Get Request
-		        ResponseHandler<String> responseHandler=new BasicResponseHandler();
 		        String responseBody = client.execute(request, responseHandler);
 		        return responseBody;
 
