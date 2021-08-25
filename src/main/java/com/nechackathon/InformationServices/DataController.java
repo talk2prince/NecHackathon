@@ -1,6 +1,7 @@
 package com.nechackathon.InformationServices;
 
-import org.codehaus.jettison.json.JSONString;
+
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,7 @@ public class DataController {
 	DataService dataService;
 	
 	@GetMapping("/rest/data/{dataType}")
-	public JSONString getSpecificData(@PathVariable("dataType") String dataType) {
+	public String getSpecificData(@PathVariable("dataType") String dataType) {
 		return dataService.getData(dataType);
 	}
 }
